@@ -59,12 +59,22 @@
         .book.open .book-cover { transform: rotateY(-140deg); }
         
         .book-content { 
-            background: white; width: 105%; height: 105%; position: absolute; 
-            z-index: 1; display: flex; justify-content: center; align-items: center; 
-            padding: 15px; border-radius: 15px; box-sizing: border-box; 
-            color: var(--dark-pink); border: 1px solid #ddd; font-size: 13px; 
-            line-height: 1.4; overflow-y: auto; text-align: left;
-        }
+    background: white; 
+    width: 100%; /* আগের ১০৫% থেকে ১০০% এ আনা হয়েছে যাতে স্ক্রিনের বাইরে না যায় */
+    height: 100%; 
+    position: absolute; 
+    z-index: 1; 
+    padding: 15px; 
+    border-radius: 10px; 
+    box-sizing: border-box; 
+    color: var(--dark-pink); 
+    border: 1px solid #ddd; 
+    font-size: 13px; 
+    line-height: 1.5; 
+    overflow-y: auto; /* লেখা বেশি হলে স্ক্রল হবে */
+    text-align: left;
+    display: block; /* flex এর বদলে block ব্যবহার করা হয়েছে যাতে প্রথম লাইন থেকে শুরু হয় */
+}
 
         /* Cake Page */
         #cake-page { display: none; padding: 60px 10px 30px 10px; animation: fadeIn 0.8s; }
@@ -128,16 +138,16 @@ amazing, incredible, kind, smart, compassionate, funny, and wonderful.😊</div>
             </div>
 
             <div class="book long-book" onclick="this.classList.toggle('open')">
-                <div class="book-cover">To Samia 🎀</div>
-                <div class="book-content">
-
-                    Happy Birthday to the one who knows me better than anyone else - my partner in crime, my secret keeper, my personal therapist, and my biggest cheerleader — today is your day!<br><br>
-                    From endless laughter to deep talks at midnight, from crazy adventures to comforting silences, you've been with me through it all. I'm so grateful for every memory, every inside joke, and every moment we've shared.<br><br>
-                    You deserve all the happiness, love, and success in the world because you're truly one of a kind. May your year ahead be full of blessings, unexpected surprises, and dreams that finally come true.<br><br>
-                    No matter where life takes us, you'll always be my forever bestie. Happy Birthday, my favorite human! 🎂 Love you infinity times more than words can say.
-                </div>
-            </div>
-        </div>
+    <div class="book-cover">To Samia 🎀</div>
+    <div class="book-content">
+        <br>
+        Happy Birthday to the one who knows me better than anyone else - my partner in crime, my secret keeper, my personal therapist, and my biggest cheerleader — today is your day!<br><br>
+        From endless laughter to deep talks at midnight, from crazy adventures to comforting silences, you've been with me through it all. I'm so grateful for every memory, every inside joke, and every moment we've shared.<br><br>
+        You deserve all the happiness, love, and success in the world because you're truly one of a kind. May your year ahead be full of blessings, unexpected surprises, and dreams that finally come true.<br><br>
+        No matter where life takes us, you'll always be my forever bestie. Happy Birthday, my favorite human! 🎂 Love you infinity times more than words can say.
+        <br><br>
+    </div>
+</div>
         <button class="btn" onclick="showCakePage()">Next: The Surprise ➡️</button>
     </div>
 
