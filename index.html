@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Birthday Surprise for Samia 🎀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Pangolin&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary-pink: #ff85a2;
+            --soft-pink: #ffeef2;
+            --dark-pink: #ff4d6d;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--soft-pink);
+            font-family: 'Pangolin', cursive;
+            overflow-x: hidden;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Back Button - Fixed at Top Left */
+        .back-btn { 
+            position: fixed; top: 15px; left: 15px; font-size: 24px; 
+            cursor: pointer; background: rgba(255,255,255,0.7); border: none; 
+            border-radius: 50%; padding: 10px; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Animations */
+        @keyframes float { 0% { transform: translateY(100vh); opacity: 1; } 100% { transform: translateY(-10vh); opacity: 0; } }
+        .heart { position: fixed; font-size: 20px; color: var(--primary-pink); animation: float 5s linear infinite; z-index: -1; }
+
+        /* Screens */
+        #intro-screen, #dashboard, #cake-page { width: 100%; box-sizing: border-box; }
+        
+        /* Intro Screen */
+        #intro-screen { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: white; }
+        .welcome-card { border: 5px solid var(--primary-pink); padding: 20px; border-radius: 20px; box-shadow: 10px 10px 0px var(--primary-pink); width: 85%; max-width: 300px; background: #fff; }
+        .cat-gif { width: 120px; margin-bottom: 10px; }
+
+        /* Dashboard */
+        #dashboard { display: none; padding: 60px 15px 20px 15px; animation: fadeIn 0.8s; }
+        .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 500px; margin: 20px auto; }
+        .photo-slot { background: white; padding: 4px; border-radius: 10px; box-shadow: 0 5px 10px rgba(0,0,0,0.05); }
+        .photo-slot img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; display: block; }
+
+        /* Books */
+        .hidden-wishes { display: flex; flex-direction: column; gap: 18px; align-items: center; margin: 24px 0; }
+        .book { width: 95%; max-width: 280px; min-height: 100px; position: relative; cursor: pointer; perspective: 1000px; }
+        
+        /* Special class for the long message box */
+        .book.long-book { min-height: 200px; } 
+
+        .book-cover { background: var(--primary-pink); color: white; width: 100%; height: 100%; position: absolute; z-index: 2; display: flex; justify-content: center; align-items: center; border-radius: 10px; transition: transform 0.6s; font-weight: bold; transform-origin: left; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); }
+        .book.open .book-cover { transform: rotateY(-140deg); }
+        
+        .book-content { 
+            background: white; width: 100%; height: 100%; position: absolute; 
+            z-index: 1; display: flex; justify-content: center; align-items: center; 
+            padding: 15px; border-radius: 10px; box-sizing: border-box; 
+            color: var(--dark-pink); border: 1px solid #ddd; font-size: 13px; 
+            line-height: 1.4; overflow-y: auto; text-align: left;
+        }
+
+        /* Cake Page */
+        #cake-page { display: none; padding: 60px 10px 30px 10px; animation: fadeIn 0.8s; }
+        .round-photo-container { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+        .round-photo { width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; box-shadow: 0 3px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .round-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+        .quote-layout { display: flex; justify-content: center; align-items: center; margin: 20px 0; gap: 10px; }
+        .bndukt-quote { background: white; border: 2px solid var(--dark-pink); padding: 10px; border-radius: 12px; font-size: 11px; max-width: 90px; box-shadow: 3px 3px 0px var(--primary-pink); font-weight: bold; color: #333; line-height: 1.3; }
+
+        .cake { font-size: 80px; position: relative; cursor: pointer; animation: cakeFloat 3s ease-in-out infinite; z-index: 5; }
+        @keyframes cakeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .candle { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 30px; }
+
+        .btn { background: var(--dark-pink); color: white; border: none; padding: 12px 25px; border-radius: 50px; font-size: 16px; cursor: pointer; box-shadow: 0 4px 0px #c9184a; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="pic/lnplusmusic-happy-birthday-314197.mp3" type="audio/mpeg">
+    </audio>
+
+    <button class="back-btn" onclick="goHome()">🏠</button>
+
+    <div id="intro-screen">
+        <div class="welcome-card">
+            <img class="cat-gif" src="https://media.giphy.com/media/MDJ9NmM9wyJx5vARuz/giphy.gif" alt="Cute Cat">
+            <h1 style="color:var(--dark-pink); font-size: 20px;">HAPPY BIRTHDAY SAMIA! ✨</h1>
+            <p style="font-size: 14px;">Ready for your small surprise?</p>
+            <button class="btn" onclick="showDashboard()">YES 💖</button>
+        </div>
+    </div>
+
+    <div id="dashboard">
+        <h1 style="color:var(--dark-pink); font-size: 24px;">Samia's Gallery ✨</h1>
+        <div class="photo-grid">
+            <div class="photo-slot"><img src="pic/h.jpeg"></div>
+            <div class="photo-slot"><img src="pic/WhatsApp Image 2026-03-04 at 1.45.56 PM.jpeg"></div>
+            <div class="photo-slot"><img src="pic/u.jpeg"></div>
+            <div class="photo-slot"><img src="pic/w.jpeg"></div>
+            <div class="photo-slot"><img src="pic/z.jpeg"></div>
+            <div class="photo-slot"><img src="pic/WhatsApp Image 2026-03-04 at 1.49.51 PMp.jpeg"></div>
+        </div>
+
+        <h3 style="color: var(--dark-pink); margin: 20px 0; font-size: 16px;">Tap the books to read wishes 📖</h3>
+        <div class="hidden-wishes">
+            <div class="book" onclick="this.classList.toggle('open')">
+                <div class="book-cover">Message 1 🎁</div>
+                <div class="book-content">Wishing the happiest birthday to my beautiful bestie !💞
+Your friendship has been a blessing in my life,and I am so thankful for all the memories we’ve shared.
+May your special day be as fantastic as you are 🥰🌸</div>
+            </div>
+
+            <div class="book" onclick="this.classList.toggle('open')">
+                <div class="book-cover">Secret 🤫</div>
+                <div class="book-content">I hope you see yourself the way I see you:
+amazing, incredible, kind, smart, compassionate, funny, and wonderful.😊</div>
+            </div>
+
+            <div class="book long-book" onclick="this.classList.toggle('open')">
+                <div class="book-cover">To Samia 🎀</div>
+                <div class="book-content">
+                    Happy Birthday to the one who knows me better than anyone else - my partner in crime, my secret keeper, my personal therapist, and my biggest cheerleader — today is your day!<br><br>
+                    From endless laughter to deep talks at midnight, from crazy adventures to comforting silences, you've been with me through it all. I'm so grateful for every memory, every inside joke, and every moment we've shared.<br><br>
+                    You deserve all the happiness, love, and success in the world because you're truly one of a kind. May your year ahead be full of blessings, unexpected surprises, and dreams that finally come true.<br><br>
+                    No matter where life takes us, you'll always be my forever bestie. Happy Birthday, my favorite human! 🎂 Love you infinity times more than words can say.
+                </div>
+            </div>
+        </div>
+        <button class="btn" onclick="showCakePage()">Next: The Surprise ➡️</button>
+    </div>
+
+    <div id="cake-page">
+        <div class="round-photo-container">
+            <div class="round-photo"><img src="pic/u.jpeg"></div>
+            <div class="round-photo"><img src="pic/WhatsApp Image 2026-03-04 at 1.49.50 PMk.jpeg"></div>
+            <div class="round-photo"><img src="pic/WhatsApp Image 2026-03-04 at 1.49.50 PM.jpeg"></div>
+            <div class="round-photo"><img src="pic/w.jpeg"></div>
+        </div>
+
+        <h1 style="color:var(--dark-pink); font-size: 22px;">Make a wish, Samia! 🎂</h1>
+        
+        <div class="quote-layout">
+            <div class="bndukt-quote">"Classy by birth, Sassy by choice!" 🔥</div>
+            <div class="cake" id="cake-emoji" onclick="cutCake()">
+                <div class="candle" id="candle-emoji">🕯️</div>
+                🎂
+            </div>
+            <div class="bndukt-quote">"Keep calm, the Queen was born today!" 👑</div>
+        </div>
+
+        <div id="cake-status" style="margin-top:20px; font-size:16px;">Click the cake to blow candles!</div>
+        <button class="btn" style="margin-top:20px;" onclick="cutCake()">Cut the Cake 🔪</button>
+    </div>
+
+    <script>
+        let music = document.getElementById('bgMusic');
+
+        function showDashboard() {
+            document.getElementById('intro-screen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            music.play().catch(e => console.log("Music interaction required"));
+            celebrate(50);
+        }
+
+        function showCakePage() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('cake-page').style.display = 'block';
+            celebrate(100);
+        }
+
+        function goHome() { location.reload(); }
+
+        function cutCake() {
+            document.getElementById('candle-emoji').innerHTML = "💨"; 
+            document.getElementById('cake-status').innerHTML = "Happy Birthday Samia! 🎉✨";
+            document.getElementById('cake-emoji').style.animation = "none";
+            document.getElementById('cake-emoji').style.transform = "scale(1.2)";
+            celebrate(200);
+        }
+
+        function celebrate(count) {
+            confetti({ particleCount: count, spread: 100, origin: { y: 0.6 }, colors: ['#ff85a2', '#ffffff', '#ffd700', '#ff4d6d'] });
+        }
+
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💗';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }, 400);
+    </script>
+</body>
+</html>
